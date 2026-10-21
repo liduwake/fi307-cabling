@@ -7,6 +7,8 @@ Field lookup for rack cabling. Data is encrypted; answer the question to open.
 
 ## 套餐通用接线图 / Generic rack wiring maps
 
+网页查看（中/英切换）/ View online (CN/EN): https://liduwake.github.io/fi307-cabling/maps/
+
 | 套餐 Package | 中文 | English |
 |---|---|---|
 | 44U-2-2.48-HY-NEW | [NEW-zh](maps/NEW-zh.png) | [NEW-en](maps/NEW-en.png) |
