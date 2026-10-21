@@ -12,5 +12,6 @@ Field lookup for rack cabling. Data is encrypted; answer the question to open.
 | 44U-2-2.48-HY-NEW | [NEW-zh](maps/NEW-zh.png) | [NEW-en](maps/NEW-en.png) |
 | 44U-3-TOR-Gen-100G-48-F-STD | [TOR-zh](maps/TOR-zh.png) | [TOR-en](maps/TOR-en.png) |
 | 44U-1-MOR-EBS-100G-24-F-STD（手搓套餐） | [MOR-zh](maps/MOR-zh.png) | [MOR-en](maps/MOR-en.png) |
+| ASW-POP（A0-3 E08/E09、F08/F09） | [POP-zh](maps/POP-zh.png) | [POP-en](maps/POP-en.png) |
 
 44U-2-2.24-HY：待确认，暂不发布 / pending confirmation, not published.
