@@ -647,7 +647,7 @@ function renderCab(){
   const nDev=new Set(c.items.filter(x=>x[1]!=='O').map(([i,s])=>s==='A'?D[i][F.ad]:D[i][F.zd])).size;
   v.innerHTML=`
    <div class="cabhead"><h1><small>${esc(c.room)}</small>${esc(c.cab)}</h1>
-     <span class="sum">${odfOnly?L(`ODF 柜 · ${c.nO} 条经过`,`ODF rack · ${c.nO} links pass`,`ODF-räkki · ${c.nO} yhteyttä kulkee`):L(`源端 ${c.nA} · 宿端 ${c.nZ} · 设备 ${nDev} 台`,`A end ${c.nA} · Z end ${c.nZ} · ${nDev} devices`,`A-pää ${c.nA} · Z-pää ${c.nZ} · ${nDev} laitetta`)}</span></div>
+     <span class="sum">${odfOnly?L(`ODF 柜 · ${c.nO} 条经过`,`ODF rack · ${c.nO} links pass`,`ODF-räkki · ${c.nO} yhteyttä kulkee`):L(`源端 ${c.nA} · 宿端 ${c.nZ} · 设备 ${nDev} 台`,`A end ${c.nA} · Z end ${c.nZ} · ${nDev} device${nDev===1?'':'s'}`,`A-pää ${c.nA} · Z-pää ${c.nZ} · ${nDev} ${nDev===1?'laite':'laitetta'}`)}</span></div>
    ${progPanel(c)}
    ${tp?pkgBar(grp,tp,c,tpl,hasRack):''}
    <div class="seg" role="group"${tpl?' hidden':''}>${segBtns.map(([k,t])=>`<button type="button" data-side="${k}" aria-pressed="${state.side===k}">${t}</button>`).join('')}</div>
