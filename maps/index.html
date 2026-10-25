@@ -29,7 +29,7 @@ figure img{display:block;width:100%;height:auto}
   <header>
     <h1 id="title">FI307 接线图</h1>
     <a class="btn" id="back" href="../">查询工具</a>
-    <button class="btn" id="lang" type="button">EN</button>
+    <select class="btn" id="lang" aria-label="Language"><option value="zh">中文</option><option value="en">EN</option><option value="fi">FI</option></select>
   </header>
   <div class="tabs" id="tabs" role="group"></div>
   <div class="meta" id="meta"></div>
@@ -38,30 +38,32 @@ figure img{display:block;width:100%;height:auto}
 </div>
 <script>
 const PK=[
-  {k:'NEW',name:'44U-2-2.48-HY-NEW',zh:'26 组 × 2 柜（A/B）· DAC 200G 1分2',en:'26 groups × 2 racks (A/B) · DAC 200G 1-to-2'},
-  {k:'TOR',name:'44U-3-TOR-Gen-100G-48-F-STD',zh:'5 组 × 3 柜（A/B/C）· AOC 200G 1分2',en:'5 groups × 3 racks (A/B/C) · AOC 200G 1-to-2'},
-  {k:'MOR',name:'44U-1-MOR-EBS-100G-24-F-STD（手搓套餐）',zh:'6 个单柜 · DAC 100G 直连',en:'6 single racks · DAC 100G direct'},
-  {k:'POP',name:'44U-2-TOR-Gen-100G-48-F-STD（ASW-POP）',zh:'2 组 × 2 柜：A0-3 E08/E09、F08/F09 · DAC 10G 直连',en:'2 groups × 2 racks: A0-3 E08/E09, F08/F09 · DAC 10G direct'}
+  {k:'NEW',name:'44U-2-2.48-HY-NEW',zh:'26 组 × 2 柜（A/B）· DAC 200G 1分2',en:'26 groups × 2 racks (A/B) · DAC 200G 1-to-2',fi:'26 ryhmää × 2 räkkiä (A/B) · DAC 200G 1→2'},
+  {k:'TOR',name:'44U-3-TOR-Gen-100G-48-F-STD',zh:'5 组 × 3 柜（A/B/C）· AOC 200G 1分2',en:'5 groups × 3 racks (A/B/C) · AOC 200G 1-to-2',fi:'5 ryhmää × 3 räkkiä (A/B/C) · AOC 200G 1→2'},
+  {k:'MOR',name:'44U-1-MOR-EBS-100G-24-F-STD（手搓套餐）',zh:'6 个单柜 · DAC 100G 直连',en:'6 single racks · DAC 100G direct',fi:'6 yksittäistä räkkiä · DAC 100G suora'},
+  {k:'POP',name:'44U-2-TOR-Gen-100G-48-F-STD（ASW-POP）',zh:'2 组 × 2 柜：A0-3 E08/E09、F08/F09 · DAC 10G 直连',en:'2 groups × 2 racks: A0-3 E08/E09, F08/F09 · DAC 10G direct',fi:'2 ryhmää × 2 räkkiä: A0-3 E08/E09, F08/F09 · DAC 10G suora'}
 ];
 let lang;try{lang=localStorage.getItem('fi307_lang')}catch(e){}
-lang=lang||((navigator.language||'').toLowerCase().startsWith('zh')?'zh':'en');
+const nl=(navigator.language||'').toLowerCase();
+if(!['zh','en','fi'].includes(lang))lang=nl.startsWith('zh')?'zh':nl.startsWith('fi')?'fi':'en';
+const L=(zh,en,fi)=>lang==='zh'?zh:lang==='fi'?fi:en;
 let cur=(location.hash.slice(1)||'NEW').toUpperCase();if(!PK.some(p=>p.k===cur))cur='NEW';
 const $=s=>document.querySelector(s);
 function render(){
-  const zh=lang==='zh',p=PK.find(x=>x.k===cur),src=`${p.k}-${zh?'zh':'en'}.png`;
-  document.documentElement.lang=zh?'zh-CN':'en';
-  document.title=zh?'FI307 接线图':'FI307 Wiring Maps';
-  $('#title').textContent=zh?'FI307 接线图':'FI307 Wiring Maps';
-  $('#back').textContent=zh?'查询工具':'Lookup tool';
-  $('#lang').textContent=zh?'EN':'中文';
+  const zh=lang==='zh',p=PK.find(x=>x.k===cur),src=`${p.k}-${zh?'zh':'en'}.png`;   // images exist in CN/EN only; Finnish UI uses the English image
+  document.documentElement.lang=zh?'zh-CN':lang;
+  document.title=L('FI307 接线图','FI307 Wiring Maps','FI307 Kytkentäkuvat');
+  $('#title').textContent=document.title;
+  $('#back').textContent=L('查询工具','Lookup tool','Hakutyökalu');
+  $('#lang').value=lang;
   $('#tabs').innerHTML=PK.map(x=>`<button type="button" data-k="${x.k}" aria-pressed="${x.k===cur}">${x.k}</button>`).join('');
-  $('#meta').innerHTML=`<b>${p.name}</b> · ${zh?p.zh:p.en} · <a href="${src}" download>${zh?'下载图片':'Download image'}</a>`;
+  $('#meta').innerHTML=`<b>${p.name}</b> · ${L(p.zh,p.en,p.fi)} · <a href="${src}" download>${L('下载图片','Download image','Lataa kuva')}</a>`;
   $('#img').src=src;$('#img').alt=p.name;$('#full').href=src;
-  $('#note').textContent=zh?'点图片可在新窗口打开原图，方便放大或打印。每个 U 位上标的就是要插进这台服务器的线；彩色走线标出线从哪台交换机（源头）出发。':'Tap the image to open it full size for zooming or printing. Each U shows the labels that plug into that server; the coloured routes show which switch (source) each cable comes from.';
+  $('#note').textContent=L('点图片可在新窗口打开原图，方便放大或打印。每个 U 位上标的就是要插进这台服务器的线；彩色走线标出线从哪台交换机（源头）出发。','Tap the image to open it full size for zooming or printing. Each U shows the labels that plug into that server; the coloured routes show which switch (source) each cable comes from.','Napauta kuvaa avataksesi sen täysikokoisena zoomausta tai tulostusta varten. Jokaisessa U-paikassa näkyvät tunnukset, jotka kytketään kyseiseen palvelimeen; värilliset reitit näyttävät, mistä kytkimestä (lähteestä) kukin kaapeli tulee. Kuvan tekstit ovat englanniksi.');
   try{history.replaceState(null,'','#'+cur)}catch(e){}
 }
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b){cur=b.dataset.k;render();}});
-$('#lang').addEventListener('click',()=>{lang=lang==='zh'?'en':'zh';try{localStorage.setItem('fi307_lang',lang)}catch(e){}render();});
+$('#lang').addEventListener('change',e=>{lang=e.target.value;try{localStorage.setItem('fi307_lang',lang)}catch(e){}render();});
 render();
 </script>
 </body>
